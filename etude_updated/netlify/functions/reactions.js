@@ -47,7 +47,8 @@ async function snapshot(issueId, deviceId) {
     `${url}/rest/v1/etude_votes?select=device_id&issue_id=eq.${encodeURIComponent(issueId)}&vote=eq.up`,
     { headers: { ...baseHeaders, Prefer: "count=exact", Range: "0-0" } }
   );
-  if (!countResponse.ok) throw new Error(`Supabase count failed (${countResponse.status})`);
+  const errorBody = await countResponse.text();
+if (!countResponse.ok) throw new Error(`Supabase count failed (${countResponse.status}): ${errorBody}`);
   const range = countResponse.headers.get("content-range") || "*/0";
   const likes = Number((range.split("/")[1] || "0").replace("*", "0")) || 0;
   const ownRows = await supabase(
