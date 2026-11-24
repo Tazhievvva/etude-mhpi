@@ -410,3 +410,95 @@ button {
     padding: 12px;
   }
 }
+/* EDITOR INTERACTION */
+
+.editable-element {
+  position: relative;
+  cursor: pointer;
+  transition: outline 0.15s ease;
+}
+
+.editable-element:hover {
+  outline: 1px dashed #d51e22;
+  outline-offset: 3px;
+}
+
+.editable-element.editor-selected {
+  outline: 2px solid #d51e22 !important;
+  outline-offset: 3px;
+}
+
+.property-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.property-group label {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.property-group input,
+.property-group textarea,
+.property-group select {
+  width: 100%;
+  padding: 10px;
+  background: #292929;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+}
+
+.property-group input[type="color"] {
+  height: 38px;
+  padding: 3px;
+}
+
+.delete-element {
+  width: 100%;
+  padding: 11px;
+  color: #fff;
+  background: #762326;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.website-canvas.device-tablet {
+  width: 768px;
+  max-width: 100%;
+}
+
+.website-canvas.device-mobile {
+  width: 390px;
+  max-width: 100%;
+}
+
+.website-canvas.device-mobile .site-preview-header {
+  flex-direction: column;
+  gap: 15px;
+}
+
+.website-canvas.device-mobile .site-preview-header nav {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.website-canvas.device-mobile .preview-hero {
+  grid-template-columns: 1fr;
+  padding: 35px 6%;
+}
+
+.website-canvas.device-mobile .preview-cards {
+  grid-template-columns: 1fr;
+}
+
+.website-canvas [contenteditable="true"] {
+  outline: 1px dashed #d51e22;
+  cursor: text;
+}
