@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
+  <title>ЭТЮД — Редактор сайта</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+
+  <header class="editor-topbar">
+    <a href="index.html" class="editor-brand">ЭТЮД<span>.</span></a>
+    <div class="topbar-center">
+      <span class="page-name">Главная страница</span>
+      <span class="save-status" id="saveStatus">Новый проект</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="undoBtn" title="Отменить">↶</button>
+      <button id="redoBtn" title="Повторить">↷</button>
+      <button id="previewBtn">Предпросмотр</button>
+      <button class="publish-btn" id="publishBtn">Опубликовать</button>
+    </div>
+  </header>
+
+  <main class="editor-workspace">
+
+    <aside class="sidebar left-sidebar">
+      <div class="panel-heading">СТРУКТУРА</div>
+      <div class="layers" id="layers">
+        <div class="layer-item active">⌂ Главная страница</div>
+        <div class="layer-item">▣ Шапка сайта</div>
+        <div class="layer-item">▧ Главный баннер</div>
+        <div class="layer-item">▤ Последние публикации</div>
+        <div class="layer-item">▦ Мероприятия</div>
+        <div class="layer-item">▤ Подвал сайта</div>
+      </div>
+
+      <div class="panel-heading library-heading">ЭЛЕМЕНТЫ</div>
+      <div class="element-list">
+        <button data-add="text">T Текст</button>
+        <button data-add="image">▧ Изображение</button>
+        <button data-add="button">▢ Кнопка</button>
+        <button data-add="container">▦ Секция</button>
+        <button data-add="gallery">▧ Галерея</button>
+      </div>
+    </aside>
+
+    <section class="canvas-area">
+      <div class="canvas-toolbar">
+        <span>ХОЛСТ</span>
+        <div class="device-switcher">
+          <button class="device-btn active" data-device="desktop">Компьютер</button>
+          <button class="device-btn" data-device="tablet">Планшет</button>
+          <button class="device-btn" data-device="mobile">Телефон</button>
+        </div>
+        <span>100%</span>
+      </div>
+
+      <div class="canvas-scroll">
+        <div class="website-canvas" id="websiteCanvas">
+          <header class="site-preview-header">
+            <div class="preview-logo">ЭТЮД<span>.</span></div>
+            <nav>
+              <span>Главная</span>
+              <span>Выпуски</span>
+              <span>Сообщество</span>
+              <span>Контакты</span>
+            </nav>
+          </header>
+
+          <section class="preview-hero editable-element" data-name="Главный баннер">
+            <div class="hero-copy">
+              <span class="preview-kicker">ЖУРНАЛ ТВОРЧЕСКОЙ ЖИЗНИ МХПИ</span>
+              <h1>Искусство<br>быть собой<span>.</span></h1>
+              <p>Пространство идей, творчества и вдохновения.</p>
+              <button class="preview-button">Открыть журнал</button>
+            </div>
+            <div class="hero-image-placeholder">
+              <span>ИЗОБРАЖЕНИЕ БАННЕРА</span>
+            </div>
+          </section>
+
+          <section class="preview-section editable-element" data-name="Публикации">
+            <span class="preview-kicker">ЖУРНАЛ</span>
+            <h2>Последние публикации</h2>
+            <div class="preview-cards">
+              <div>Материал № 01</div>
+              <div>Материал № 02</div>
+              <div>Материал № 03</div>
+            </div>
+          </section>
+
+          <section class="preview-section editable-element" data-name="Мероприятия">
+            <span class="preview-kicker">АФИША</span>
+            <h2>Ближайшие события</h2>
+          </section>
+
+          <footer class="preview-footer">ЭТЮД · Журнал творческой жизни МХПИ</footer>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar right-sidebar">
+      <div class="panel-heading">СВОЙСТВА</div>
+      <div class="properties-content" id="properties">
+        <div class="empty-selection">
+          <div class="empty-icon">◇</div>
+          <p>Выбери элемент на холсте, чтобы изменить его свойства.</p>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="editor.js"></script>
+</body>
+</html>
