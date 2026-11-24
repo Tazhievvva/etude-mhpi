@@ -26,12 +26,12 @@ export default async (request, context) => {
   }
 
   return new Response("Введите логин и пароль для входа.", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="ETUDE editor"',
-      "Cache-Control": "no-store"
-    }
-  });
+  status: 401,
+  headers: [
+    ["WWW-Authenticate", 'Basic realm="ETUDE"'],
+    ["Cache-Control", "no-store"]
+  ]
+});
 };
 
 export const config = {
