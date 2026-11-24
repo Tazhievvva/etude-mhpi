@@ -1,153 +1,271 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Искусство замечать — ЭТЮД</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#191919">
+<title>Искусство замечать — ЭТЮД</title>
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-  <header class="header">
-    <div class="wrap header-inner">
-      <a href="index.html" class="logo">ЭТЮД<span>.</span></a>
-
-      <nav class="nav">
-        <a href="index.html">Главная</a>
-        <a href="issues.html">Выпуски</a>
-        <a href="community.html">Сообщество</a>
-        <a href="contacts.html">Контакты</a>
-      </nav>
-
-      <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
-        ◐
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img class="brand-logo brand-logo-light" src="assets/logo-black.png" alt="МХПИ">
+      <img class="brand-logo brand-logo-dark" src="assets/logo-white.png" alt="МХПИ">
+      <span class="brand-word">ЭТЮД<i>.</i></span>
+    </a>
+    <div class="nav-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Переключить тему">☾</button>
+      <button class="icon-btn burger" data-menu-open aria-label="Открыть меню">
+        <span></span><span></span><span></span>
       </button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
+<div class="drawer-scrim"></div>
+<nav class="drawer">
+  <div class="drawer-top">
+    ЭТЮД.
+    <button class="icon-btn" data-menu-close aria-label="Закрыть меню">×</button>
+  </div>
+  <a href="issues.html">Выпуски <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="community.html">Сообщество <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="contacts.html">Контакты <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="contacts.html#editor">Написать в редакцию <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <small>МХПИ · Искусство · Дизайн · Люди</small>
+</nav>
 
-    <section class="page-head">
-      <div class="wrap">
-        <p class="eyebrow">МАТЕРИАЛ РЕДАКЦИИ · 2026</p>
-        <h1>Искусство<br>замечать<span class="red">.</span></h1>
-        <p class="dek">
-          Почему художнику важно рисовать повседневность
-          и находить вдохновение в самых обычных вещах.
-        </p>
-      </div>
-    </section>
+<main>
 
-    <section class="section">
-      <div class="wrap article-layout">
+<section class="wrap page-head">
+  <div class="issue-meta">
+    <span>Материал редакции</span>
+    <span>2026</span>
+    <span>Наблюдения</span>
+  </div>
+  <h1>Искусство<br>замечать<span class="red">.</span></h1>
+  <p>Почему художнику важно рисовать повседневность и находить вдохновение в самых обычных вещах.</p>
+</section>
 
-        <article class="article-content">
+<section class="wrap article-feedback-top" aria-label="Оценить статью">
+  <div class="reaction-row" data-reactions data-reaction-id="article-test">
+    <button class="reaction" data-vote="up" aria-pressed="false">
+      <span class="reaction-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><path class="heart-shape" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg>
+      </span>
+      <span>Нравится</span><b data-count="up">0</b>
+    </button>
+    <button class="reaction" data-vote="down" aria-pressed="false">
+      <span class="reaction-icon crack-heart" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><path class="heart-sad" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg>
+      </span>
+      <span>Можно лучше</span>
+    </button>
+  </div>
+</section>
 
-          <p class="article-lead">
-            Художник отличается от других людей не только умением
-            рисовать. Он умеет замечать то, мимо чего остальные
-            проходят каждый день: необычное сочетание цветов,
-            случайную тень на стене, отражение в окне или
-            выразительный жест незнакомого человека.
-          </p>
+<section class="wrap article-intro">
+  <div>
+    <div class="kicker">От редакции</div>
+    <h2>Мир вокруг<br>нас — уже искусство<span class="red">.</span></h2>
+    <p class="lead">Художник отличается от других людей не только умением рисовать. Он умеет замечать то, мимо чего остальные проходят каждый день.</p>
+    <p>Необычное сочетание цветов, случайная тень на стене, отражение в окне, силуэт прохожего или свет, который на несколько минут изменил привычное пространство. Всё это может стать началом творческой идеи.</p>
+    <p>Мы решили поговорить о наблюдательности — навыке, который помогает художнику находить сюжеты не только в музеях и мастерских, но и в обычной повседневной жизни.</p>
+  </div>
+  <div class="intro-photos">
+    <img src="assets/photo-3.jpg" alt="Студентка рисует на пленэре">
+    <img src="assets/photo-10.jpg" alt="Даниэль">
+  </div>
+</section>
 
-          <figure class="article-image">
-            <img src="assets/photo-9.jpg" alt="Работы студентов на выставке">
-            <figcaption>Наблюдение — первый шаг к будущей работе.</figcaption>
-          </figure>
+<section class="article-section" id="observation">
+  <div class="wrap">
+    <div class="kicker">01 / Наблюдение</div>
+    <h2>Смотреть — ещё не значит видеть<span class="red">.</span></h2>
+    <p class="lead muted">Первый шаг к рисунку начинается задолго до того, как карандаш коснётся бумаги.</p>
+    <p>Мы постоянно окружены визуальной информацией, но редко останавливаемся, чтобы действительно её рассмотреть. Привычные пространства становятся фоном: коридоры, лестницы, остановки, окна и городские улицы.</p>
+    <p>Попробуйте посмотреть на знакомое место так, будто видите его впервые. Как падает свет? Какие формы повторяются? Где появляется контраст? Как расположены предметы относительно друг друга?</p>
+  </div>
 
-          <h2>Смотреть — ещё не значит видеть</h2>
+  <div class="wrap" style="padding-top:30px">
+    <div class="gallery" data-gallery="article-observation">
+      <button class="wide" data-full-image="assets/photo-5.jpg">
+        <img src="assets/photo-5.jpg" alt="Пленэр у пруда в Царицыно">
+      </button>
+      <button data-full-image="assets/photo-3.jpg">
+        <img src="assets/photo-3.jpg" alt="Студентка рисует на пленэре">
+      </button>
+      <button data-full-image="assets/photo-4.jpg">
+        <img src="assets/photo-4.jpg" alt="Участники пленэра в Царицыно">
+      </button>
+    </div>
+    <p class="event-copy muted">Один и тот же пейзаж может выглядеть совершенно по-разному в зависимости от света, времени и точки зрения.</p>
+  </div>
+</section>
 
-          <p>
-            Мы постоянно окружены визуальной информацией, но редко
-            останавливаемся, чтобы действительно её рассмотреть.
-            Привычные пространства становятся фоном: коридоры,
-            лестницы, остановки, окна и городские улицы.
-          </p>
+<section class="article-section" id="sketchbook">
+  <div class="wrap">
+    <div class="kicker">02 / Визуальный архив</div>
+    <h2>Скетчбук как пространство наблюдений<span class="red">.</span></h2>
+    <p class="lead muted">Не альбом идеальных рисунков, а личная коллекция впечатлений.</p>
+    <p>Скетчбук — это не обязательно место для законченных работ. Скорее, это пространство для экспериментов, быстрых зарисовок и поиска визуальных решений.</p>
+    <p>В нём могут соседствовать случайные надписи, цветовые сочетания, силуэты, фрагменты архитектуры, схемы и небольшие композиционные эксперименты. Не нужно стремиться к идеальному результату: иногда ценнее всего оказывается сам процесс наблюдения.</p>
+  </div>
 
-          <p>
-            Для художника повседневность может стать источником
-            бесконечного количества сюжетов. Важно научиться
-            замечать детали, изучать свет и тень, обращать внимание
-            на пропорции, ритмы и композицию окружающего мира.
-          </p>
+  <div class="wrap" style="padding-top:30px">
+    <div class="gallery" data-gallery="article-sketchbook">
+      <button data-full-image="assets/photo-1.jpg">
+        <img src="assets/photo-1.jpg" alt="Посетительница выставки рассматривает работы">
+      </button>
+      <button class="wide" data-full-image="assets/photo-9.jpg">
+        <img src="assets/photo-9.jpg" alt="Экспозиция студенческих работ">
+      </button>
+    </div>
+    <p class="event-copy muted">Насмотренность складывается из множества маленьких наблюдений и впечатлений.</p>
+  </div>
+</section>
 
-          <h2>Скетчбук как пространство наблюдений</h2>
+<section class="article-section" id="practice">
+  <div class="wrap">
+    <div class="kicker">03 / Практика</div>
+    <h2>Учиться замечать можно каждый день<span class="red">.</span></h2>
+    <p class="lead muted">Несколько простых упражнений, которые помогут внимательнее смотреть на привычные вещи.</p>
 
-          <p>
-            Скетчбук — это не обязательно место для законченных
-            рисунков. Скорее, это личный архив впечатлений.
-            В нём могут соседствовать быстрые зарисовки,
-            случайные надписи, цветовые сочетания, силуэты
-            и небольшие композиционные эксперименты.
-          </p>
-
-          <figure class="article-image">
-            <img src="assets/photo-1.jpg" alt="Творческие работы и выставочное пространство">
-            <figcaption>Каждое наблюдение может стать началом новой идеи.</figcaption>
-          </figure>
-
-          <h2>Практика, которая начинается с малого</h2>
-
-          <p>
-            Необязательно каждый день искать сложные сюжеты.
-            Можно начать с простого упражнения: выбрать один
-            предмет и сделать несколько быстрых зарисовок,
-            меняя ракурс, масштаб или освещение.
-          </p>
-
-          <p>
-            Попробуйте зарисовать собственную комнату, дорогу
-            до института или предметы на рабочем столе.
-            Ограничьте время несколькими минутами и не стремитесь
-            к идеальному результату. Главная задача —
-            научиться смотреть внимательнее.
-          </p>
-
-          <h2>Вдохновение ближе, чем кажется</h2>
-
-          <p>
-            Иногда для новой работы не нужны специальные условия
-            или далёкие путешествия. Достаточно выйти на улицу,
-            посмотреть на привычное пространство под другим
-            углом и позволить себе заметить что-то новое.
-          </p>
-
-          <p>
-            Искусство начинается не только с идеи или техники.
-            Иногда оно начинается с простого желания остановиться
-            и внимательно посмотреть вокруг.
-          </p>
-
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="wrap">
-        <div class="glass support-card">
-          <p class="eyebrow">ЭТЮД · ЖУРНАЛ ТВОРЧЕСКОЙ ЖИЗНИ МХПИ</p>
-          <h2>Продолжайте замечать<span class="red">.</span></h2>
-          <p>
-            Искусство · Дизайн · Люди
-          </p>
-          <a href="issues.html" class="text-link">Все материалы журнала →</a>
+    <div class="plan-list" style="margin-top:30px">
+      <div class="plan glass">
+        <div class="n">01</div>
+        <div>
+          <h3>Один предмет — несколько ракурсов</h3>
+          <p>Выберите любой предмет рядом с собой. Сделайте несколько быстрых зарисовок, меняя положение листа и точку обзора. Обратите внимание, как меняются пропорции и силуэт.</p>
         </div>
       </div>
-    </section>
 
-  </main>
+      <div class="plan glass">
+        <div class="n">02</div>
+        <div>
+          <h3>Пять минут на свет и тень</h3>
+          <p>Найдите предмет с интересным освещением. Не прорисовывайте детали — попробуйте передать только основные светлые и тёмные пятна, их форму и расположение.</p>
+        </div>
+      </div>
 
-  <footer class="footer">
-    <div class="wrap footer-inner">
-      <a href="index.html" class="logo">ЭТЮД<span>.</span></a>
-      <p>Журнал творческой жизни МХПИ</p>
-      <a href="https://t.me/" target="_blank" rel="noopener">Telegram</a>
+      <div class="plan glass">
+        <div class="n">03</div>
+        <div>
+          <h3>Коллекция цветовых сочетаний</h3>
+          <p>Записывайте необычные сочетания цветов, которые встречаете в городе, природе или интерьере. Позже они могут стать основой палитры для иллюстрации, плаката или другой творческой работы.</p>
+        </div>
+      </div>
+
+      <div class="plan glass">
+        <div class="n">04</div>
+        <div>
+          <h3>Зарисовка без ожиданий</h3>
+          <p>Выделите несколько минут на быстрый рисунок. Не исправляйте линии и не оценивайте результат. Ваша задача — зафиксировать впечатление, пока оно не исчезло.</p>
+        </div>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script src="script.js"></script>
+<section class="article-section" id="inspiration">
+  <div class="wrap">
+    <div class="kicker">04 / Вдохновение</div>
+    <h2>Вдохновение ближе, чем кажется<span class="red">.</span></h2>
+    <p class="lead muted">Для новой идеи не всегда нужны особенные обстоятельства.</p>
+    <p>Иногда достаточно выйти на улицу, посмотреть на привычное пространство под другим углом или задержать взгляд на детали, которую раньше не замечали.</p>
+    <p>Повседневность не ограничивает художника — она даёт ему бесконечное количество материала. Важно только позволить себе остановиться, присмотреться и сохранить увиденное.</p>
+  </div>
 
+  <div class="wrap" style="padding-top:30px">
+    <div class="gallery" data-gallery="article-inspiration">
+      <button class="wide" data-full-image="assets/photo-6.jpg">
+        <img src="assets/photo-6.jpg" alt="Экспозиция выставки в Казани">
+      </button>
+      <button data-full-image="assets/photo-7.jpg">
+        <img src="assets/photo-7.jpg" alt="Афиша выставки">
+      </button>
+      <button data-full-image="assets/photo-8.jpg">
+        <img src="assets/photo-8.jpg" alt="Участники выставки">
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="wrap support-section" aria-label="Поддержать Этюд">
+  <div class="support-card">
+    <div class="kicker">Обратная связь</div>
+    <h2>Продолжайте<br>замечать<span class="red">.</span></h2>
+    <p>Искусство начинается с внимания к миру вокруг. А «Этюд» продолжает собирать истории, идеи и впечатления нашего творческого сообщества.</p>
+
+    <div class="reaction-row" data-reactions data-reaction-id="article-test">
+      <button class="reaction" data-vote="up" aria-pressed="false">
+        <span class="reaction-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path class="heart-shape" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg>
+        </span>
+        <span>Нравится</span><b data-count="up">0</b>
+      </button>
+      <button class="reaction" data-vote="down" aria-pressed="false">
+        <span class="reaction-icon crack-heart" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path class="heart-sad" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg>
+        </span>
+        <span>Можно лучше</span>
+      </button>
+    </div>
+
+    <p class="reaction-note" data-reaction-note>Один голос на устройство — но мнение каждого важно.</p>
+
+    <div class="etude-joke">
+      <span class="joke-mark">P.S.</span>
+      <span>Если ты дочитал до самого конца — поздравляем! Теперь у тебя есть повод посмотреть на привычные вещи немного внимательнее.</span>
+      <span class="joke-stamp">★ ЭТЮД ★</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-logo">ЭТЮД<span>.</span></div>
+      <div class="footer-note">Журнал творческой жизни МХПИ<br>Искусство · Дизайн · Люди</div>
+    </div>
+
+    <div>
+      <div class="socials">
+        <a class="social" href="https://t.me/mhpi_team" aria-label="Telegram МХПИ" target="_blank"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+        <a class="social" href="https://t.me/mhpi_hd" aria-label="Telegram ХД" target="_blank"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+        <a class="social" href="https://t.me/mhpi_gd" aria-label="Telegram ГД" target="_blank"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+        <a class="social" href="https://t.me/mhpi_dk" aria-label="Telegram ДК" target="_blank"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+        <a class="social" href="https://t.me/kafedraMiD" aria-label="Telegram МиД" target="_blank"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+        <a class="social" href="https://t.me/mhpi_gsed" aria-label="Telegram ГСЭД" target="_blank"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+      </div>
+      <div class="social-labels">
+        <span>МХПИ</span><span>ХД</span><span>ГД</span><span>ДК</span><span>МИД</span><span>ГСЭД</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" aria-label="Просмотр фотографий">
+  <button class="lb-close" data-lightbox-close aria-label="Закрыть">×</button>
+  <button class="lb-prev" data-lightbox-prev aria-label="Предыдущее фото">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <figure>
+    <img src="" alt="Увеличенная фотография">
+    <figcaption data-lightbox-caption></figcaption>
+  </figure>
+  <button class="lb-next" data-lightbox-next aria-label="Следующее фото">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="lb-counter" data-lightbox-counter></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
