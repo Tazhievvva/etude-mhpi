@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#171717">
   <title>ЭТЮД — Редактор сайта</title>
-  <link rel="stylesheet" href="editor.css">
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="editor.css">
 </head>
 <body>
 
@@ -60,44 +61,149 @@
 
       <div class="canvas-scroll">
         <div class="website-canvas" id="websiteCanvas">
-          <header class="site-preview-header">
-            <div class="preview-logo">ЭТЮД<span>.</span></div>
-            <nav>
-              <span>Главная</span>
-              <span>Выпуски</span>
-              <span>Сообщество</span>
-              <span>Контакты</span>
-            </nav>
-          </header>
+          
+<!-- ЗАЩИЩЁННАЯ ШАПКА ОРИГИНАЛЬНОГО САЙТА -->
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img class="brand-logo brand-logo-light" src="assets/logo-black.png" alt="МХПИ">
+      <img class="brand-logo brand-logo-dark" src="assets/logo-white.png" alt="МХПИ">
+      <span class="brand-word">ЭТЮД<i>.</i></span>
+    </a>
+    <div class="nav-actions">
+      <button class="icon-btn" aria-label="Переключить тему">☾</button>
+      <button class="icon-btn burger" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-          <section class="preview-hero editable-element" data-name="Главный баннер">
-            <div class="hero-copy">
-              <span class="preview-kicker">ЖУРНАЛ ТВОРЧЕСКОЙ ЖИЗНИ МХПИ</span>
-              <h1>Искусство<br>быть собой<span>.</span></h1>
-              <p>Пространство идей, творчества и вдохновения.</p>
-              <button class="preview-button">Открыть журнал</button>
-            </div>
-            <div class="hero-image-placeholder">
-              <span>ИЗОБРАЖЕНИЕ БАННЕРА</span>
-            </div>
-          </section>
+<div class="drawer-scrim"></div>
+<nav class="drawer">
+  <div class="drawer-top">
+    ЭТЮД.
+    <button class="icon-btn" aria-label="Закрыть меню">×</button>
+  </div>
+  <a href="issues.html">Выпуски</a>
+  <a href="community.html">Сообщество</a>
+  <a href="contacts.html">Контакты</a>
+  <a href="contacts.html#editor">Написать в редакцию</a>
+  <small>МХПИ · Искусство · Дизайн · Люди</small>
+</nav>
 
-          <section class="preview-section editable-element" data-name="Публикации">
-            <span class="preview-kicker">ЖУРНАЛ</span>
-            <h2>Последние публикации</h2>
-            <div class="preview-cards">
-              <div>Материал № 01</div>
-              <div>Материал № 02</div>
-              <div>Материал № 03</div>
-            </div>
-          </section>
+<!-- РЕДАКТИРУЕМОЕ СОДЕРЖИМОЕ -->
+<main>
+  <section class="wrap hero editable-element" data-name="Главный баннер">
+    <div>
+      <div class="kicker">Журнал творческой жизни МХПИ</div>
+      <h1>ЭТЮ<span>Д</span></h1>
+      <p class="hero-copy">Зарисовки жизни института, люди, события и идеи, которые хочется сохранить. Пространство, где можно узнать больше и стать частью творческого сообщества.</p>
+      <a class="text-link" href="issue-01.html">Читать пилотный выпуск</a>
+    </div>
+    <div class="hero-art">
+      <img src="assets/photo-9.jpg" alt="Работы на выставке">
+      <div class="hero-tag">ИСКУССТВО · ДИЗАЙН · ЛЮДИ</div>
+    </div>
+  </section>
 
-          <section class="preview-section editable-element" data-name="Мероприятия">
-            <span class="preview-kicker">АФИША</span>
-            <h2>Ближайшие события</h2>
-          </section>
+  <section class="section editable-element" data-name="Свежий выпуск">
+    <div class="wrap">
+      <div class="section-top">
+        <div>
+          <div class="kicker">Первый номер</div>
+          <h2>Свежий выпуск<span class="red">.</span></h2>
+        </div>
+        <p>Начинаем с историй о пленэрах, выставках и планах. Листай, смотри фотографии и присоединяйся к тому, что будет дальше.</p>
+      </div>
 
-          <footer class="preview-footer">ЭТЮД · Журнал творческой жизни МХПИ</footer>
+      <a class="issue-card glass" href="issue-01.html">
+        <div class="issue-card-copy">
+          <div>
+            <div class="issue-number">01</div>
+            <div class="smallcaps">Пилотный выпуск · 2026</div>
+            <h3>События, люди<br>и новые планы</h3>
+          </div>
+          <span class="text-link">Открыть выпуск</span>
+        </div>
+        <div class="issue-card-image">
+          <img src="assets/photo-1.jpg" alt="Выставка работ студентов">
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section editable-element" data-name="Что внутри">
+    <div class="wrap">
+      <div class="section-top">
+        <div>
+          <div class="kicker">Что внутри</div>
+          <h2>Больше, чем новости<span class="red">.</span></h2>
+        </div>
+        <p>«Этюд» собирает в одном месте творческую жизнь кафедр и даёт возможность каждому включиться.</p>
+      </div>
+
+      <div class="tiles">
+        <a class="tile glass" href="issue-01.html#events">
+          <div class="tile-num">01</div>
+          <h3>События</h3>
+          <p>Пленэры, выставки, встречи и то, что происходит за пределами аудиторий.</p>
+        </a>
+        <a class="tile glass" href="issue-01.html#plans">
+          <div class="tile-num">02</div>
+          <h3>Планы</h3>
+          <p>Поездки, мастер-классы, вечера набросков и новые проекты.</p>
+        </a>
+        <a class="tile glass" href="community.html">
+          <div class="tile-num">03</div>
+          <h3>Сообщество</h3>
+          <p>Объявления, помощь, натура, идеи и темы, которые предлагают сами студенты.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ЗАЩИЩЁННЫЙ ПОДВАЛ ОРИГИНАЛЬНОГО САЙТА -->
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-logo">ЭТЮД<span>.</span></div>
+      <div class="footer-note">
+        Журнал творческой жизни МХПИ<br>
+        Искусство · Дизайн · Люди
+      </div>
+    </div>
+
+    <div>
+      <div class="socials">
+        <a class="social" href="https://t.me/mhpi_team" aria-label="МХПИ" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22 3.2 18.6 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L18 6.1c.4-.4-.1-.6-.6-.2L4.2 14.7l-5.4-1.7c-1.2-.4-1.2-1.2.3-1.8L20.1 2.1c1-.4 2 .2 1.9 1.1Z" transform="translate(1 0)"/></svg>
+        </a>
+        <a class="social" href="https://t.me/mhpi_hd" aria-label="ХД" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22 3.2 18.6 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L18 6.1c.4-.4-.1-.6-.6-.2L4.2 14.7l-5.4-1.7c-1.2-.4-1.2-1.2.3-1.8L20.1 2.1c1-.4 2 .2 1.9 1.1Z" transform="translate(1 0)"/></svg>
+        </a>
+        <a class="social" href="https://t.me/mhpi_gd" aria-label="ГД" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22 3.2 18.6 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L18 6.1c.4-.4-.1-.6-.6-.2L4.2 14.7l-5.4-1.7c-1.2-.4-1.2-1.2.3-1.8L20.1 2.1c1-.4 2 .2 1.9 1.1Z" transform="translate(1 0)"/></svg>
+        </a>
+        <a class="social" href="https://t.me/mhpi_dk" aria-label="ДК" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22 3.2 18.6 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L18 6.1c.4-.4-.1-.6-.6-.2L4.2 14.7l-5.4-1.7c-1.2-.4-1.2-1.2.3-1.8L20.1 2.1c1-.4 2 .2 1.9 1.1Z" transform="translate(1 0)"/></svg>
+        </a>
+        <a class="social" href="https://t.me/kafedraMiD" aria-label="МИД" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22 3.2 18.6 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L18 6.1c.4-.4-.1-.6-.6-.2L4.2 14.7l-5.4-1.7c-1.2-.4-1.2-1.2.3-1.8L20.1 2.1c1-.4 2 .2 1.9 1.1Z" transform="translate(1 0)"/></svg>
+        </a>
+        <a class="social" href="https://t.me/mhpi_gsed" aria-label="ГСЭД" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22 3.2 18.6 20c-.3 1.2-1 1.5-2 .9l-5.5-4.1-2.7 2.6c-.3.3-.6.6-1.2.6l.4-5.6L18 6.1c.4-.4-.1-.6-.6-.2L4.2 14.7l-5.4-1.7c-1.2-.4-1.2-1.2.3-1.8L20.1 2.1c1-.4 2 .2 1.9 1.1Z" transform="translate(1 0)"/></svg>
+        </a>
+      </div>
+      <div class="social-labels">
+        <span>МХПИ</span><span>ХД</span><span>ГД</span>
+        <span>ДК</span><span>МИД</span><span>ГСЭД</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
         </div>
       </div>
     </section>
