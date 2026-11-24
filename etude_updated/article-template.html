@@ -1,0 +1,174 @@
+<!doctype html>
+<!--
+ШАБЛОН СТАТЬИ «ЭТЮД»
+1. Сохрани копию под новым именем, например article-03.html.
+2. Замени все тексты в квадратных скобках.
+3. Укажи один и тот же уникальный data-reaction-id в обоих блоках реакций.
+4. Замени assets/[ИМЯ-ФОТО].jpg на реальные имена файлов из папки assets.
+5. Для дополнительных разделов копируй section.article-section; ненужные блоки удаляй.
+6. Для галереи используй одинаковый путь в data-full-image и src.
+7. Перед публикацией проверь ссылки на предыдущий/следующий выпуск.
+Общие шапка, подвал, меню, lightbox и подключения CSS/JS обычно не редактируются.
+-->
+
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#191919">
+<title>[НАЗВАНИЕ СТАТЬИ] — ЭТЮД</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header"><div class="wrap nav">
+<a class="brand" href="index.html"><img class="brand-logo brand-logo-light" src="assets/logo-black.png" alt="МХПИ"><img class="brand-logo brand-logo-dark" src="assets/logo-white.png" alt="МХПИ"><span class="brand-word">ЭТЮД<i>.</i></span></a>
+<div class="nav-actions"><button class="icon-btn" data-theme-toggle aria-label="Переключить тему">☾</button><button class="icon-btn burger" data-menu-open aria-label="Открыть меню"><span></span><span></span><span></span></button></div>
+</div></header>
+<div class="drawer-scrim"></div>
+<nav class="drawer">
+<div class="drawer-top">ЭТЮД.<button class="icon-btn" data-menu-close aria-label="Закрыть меню">×</button></div>
+<a href="issues.html">Выпуски <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="community.html">Сообщество <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="contacts.html">Контакты <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<a href="contacts.html#editor">Написать в редакцию <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<small>МХПИ · Искусство · Дизайн · Люди</small>
+</nav>
+<main>
+<section class="wrap page-head">
+<div class="issue-meta"><span>[НАЗВАНИЕ ВЫПУСКА]</span><span>№ [НОМЕР]</span><span>[ГОД]</span></div>
+<h1>[ЗАГОЛОВОК СТАТЬИ]<span class="red">.</span></h1>
+<p>[КРАТКОЕ ОПИСАНИЕ СТАТЬИ]</p>
+</section>
+
+<section class="wrap article-feedback-top" aria-label="Оценить выпуск">
+<div class="reaction-row" data-reactions data-reaction-id="[УНИКАЛЬНЫЙ_ID_СТАТЬИ]">
+<button class="reaction" data-vote="up" aria-pressed="false"><span class="reaction-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path class="heart-shape" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg></span><span>Нравится</span><b data-count="up">0</b></button>
+<button class="reaction" data-vote="down" aria-pressed="false"><span class="reaction-icon crack-heart" aria-hidden="true"><svg viewBox="0 0 32 32"><path class="heart-sad" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg></span><span>Можно лучше</span></button>
+</div>
+</section>
+
+<!-- ВСТУПЛЕНИЕ: можно удалить блок intro-photos, если фотографии не нужны. -->
+<section class="wrap article-intro">
+<div>
+<div class="kicker">[РУБРИКА / ОТ РЕДАКЦИИ]</div>
+<h2>[ЗАГОЛОВОК ВСТУПЛЕНИЯ]<span class="red">.</span></h2>
+<p class="lead">[ГЛАВНАЯ МЫСЛЬ ВСТУПЛЕНИЯ]</p>
+<p>[ТЕКСТ ВСТУПЛЕНИЯ. Добавляй или удаляй абзацы по необходимости.]</p>
+
+</div>
+<div class="intro-photos"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></div>
+</section>
+
+<!-- ОСНОВНЫЕ РАЗДЕЛЫ: копируй article-section целиком, меняй номер и id. Ненужные разделы можно удалить. -->
+<section class="article-section" id="section-01">
+<div class="wrap">
+<div class="kicker">01 / [НАЗВАНИЕ РАЗДЕЛА]</div>
+<h2>[ЗАГОЛОВОК РАЗДЕЛА]<span class="red">.</span></h2>
+<p class="lead muted">[КРАТКИЙ ПОДЗАГОЛОВОК РАЗДЕЛА]</p>
+<p>[ОСНОВНОЙ ТЕКСТ РАЗДЕЛА]</p>
+<p>[ДОПОЛНИТЕЛЬНЫЙ АБЗАЦ — ПО ЖЕЛАНИЮ]</p>
+</div>
+<div class="wrap" style="padding-top:30px">
+<div class="gallery" data-gallery="gallery-01">
+<button class="wide" data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+<button data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+<button data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+</div>
+<p class="event-copy muted">Один и тот же пейзаж меняется вместе со светом, временем и точкой зрения.</p>
+</div>
+</section>
+
+<section class="article-section" id="section-02">
+<div class="wrap">
+<div class="kicker">02 / [НАЗВАНИЕ РАЗДЕЛА]</div>
+<h2>[ЗАГОЛОВОК РАЗДЕЛА]<span class="red">.</span></h2>
+<p class="lead muted">[КРАТКИЙ ПОДЗАГОЛОВОК РАЗДЕЛА]</p>
+</div>
+<div class="wrap" style="padding-top:26px">
+<div class="gallery" data-gallery="gallery-02">
+<button data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+<button class="wide" data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+</div>
+</div>
+<div class="wrap">
+<p>[ОСНОВНОЙ ТЕКСТ РАЗДЕЛА]</p>
+<p>[ДОПОЛНИТЕЛЬНЫЙ АБЗАЦ — ПО ЖЕЛАНИЮ]</p>
+<p class="event-copy muted">[ПОДПИСЬ К ГАЛЕРЕЕ — НЕОБЯЗАТЕЛЬНО]</p>
+</div>
+</section>
+
+<section class="article-section" id="section-03">
+<div class="wrap">
+<div class="kicker">03 / [РУБРИКА — НЕОБЯЗАТЕЛЬНО]</div>
+<h2>[ЗАГОЛОВОК СПИСКА / УПРАЖНЕНИЙ]<span class="red">.</span></h2>
+<p class="lead muted">[ВВОДНЫЙ ТЕКСТ]</p>
+<div class="plan-list" style="margin-top:30px">
+<div class="plan glass"><div class="n">01</div><div><h3>[НАЗВАНИЕ ПУНКТА 1]</h3><p>[ОПИСАНИЕ ПУНКТА 1]</p></div></div>
+<div class="plan glass"><div class="n">02</div><div><h3>[НАЗВАНИЕ ПУНКТА 2]</h3><p>[ОПИСАНИЕ ПУНКТА 2]</p></div></div>
+<div class="plan glass"><div class="n">03</div><div><h3>[НАЗВАНИЕ ПУНКТА 3]</h3><p>[ОПИСАНИЕ ПУНКТА 3]</p></div></div>
+<div class="plan glass"><div class="n">04</div><div><h3>[НАЗВАНИЕ ПУНКТА 4]</h3><p>[ОПИСАНИЕ ПУНКТА 4]</p></div></div>
+</div>
+</div>
+</section>
+
+<section class="article-section" id="section-04">
+<div class="wrap">
+<div class="kicker">04 / [НАЗВАНИЕ РАЗДЕЛА]</div>
+<h2>[ЗАГОЛОВОК РАЗДЕЛА]<span class="red">.</span></h2>
+<p class="lead muted">[КРАТКИЙ ПОДЗАГОЛОВОК РАЗДЕЛА]</p>
+<p>[ОСНОВНОЙ ТЕКСТ РАЗДЕЛА]</p>
+<p>[ДОПОЛНИТЕЛЬНЫЙ АБЗАЦ — ПО ЖЕЛАНИЮ]</p>
+</div>
+<div class="wrap" style="padding-top:30px">
+<div class="gallery" data-gallery="gallery-03">
+<button class="wide" data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+<button data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+<button data-full-image="assets/[ИМЯ-ФОТО].jpg"><img src="assets/[ИМЯ-ФОТО].jpg" alt="[ОПИСАНИЕ ФОТО]"></button>
+</div>
+</div>
+</section>
+
+<!-- ЗАВЕРШЕНИЕ И ОБРАТНАЯ СВЯЗЬ -->
+<section class="wrap support-section" aria-label="Поддержать Этюд">
+<div class="support-card">
+<div class="kicker">Обратная связь</div>
+<h2>[ФИНАЛЬНАЯ ФРАЗА]<span class="red">.</span></h2>
+<p>[ЗАКЛЮЧИТЕЛЬНЫЙ ТЕКСТ СТАТЬИ]</p>
+<div class="reaction-row" data-reactions data-reaction-id="[УНИКАЛЬНЫЙ_ID_СТАТЬИ]">
+<button class="reaction" data-vote="up" aria-pressed="false"><span class="reaction-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path class="heart-shape" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg></span><span>Нравится</span><b data-count="up">0</b></button>
+<button class="reaction" data-vote="down" aria-pressed="false"><span class="reaction-icon crack-heart" aria-hidden="true"><svg viewBox="0 0 32 32"><path class="heart-sad" d="M16 27S3 19.2 3 10.8C3 4.2 11.1 1.4 16 8c4.9-6.6 13-3.8 13 2.8C29 19.2 16 27 16 27Z"/></svg></span><span>Можно лучше</span></button>
+</div>
+<p class="reaction-note" data-reaction-note>Один голос на устройство — но мнение каждого важно.</p>
+<div class="etude-joke"><span class="joke-mark">P.S.</span><span>[КОРОТКАЯ ФИНАЛЬНАЯ РЕПЛИКА — МОЖНО УДАЛИТЬ]</span><span class="joke-stamp">★ ЭТЮД ★</span></div>
+</div>
+</section>
+
+<!-- НАВИГАЦИЯ: удаляй карточку предыдущего/следующего выпуска, если её пока нет. -->
+<section class="wrap article-section" aria-label="Навигация по выпускам">
+<div class="plan glass"><div class="n">←</div><div><div class="kicker">Предыдущий выпуск</div><h3>[НАЗВАНИЕ ПРЕДЫДУЩЕГО ВЫПУСКА]</h3><a class="text-link" href="[ФАЙЛ-ПРЕДЫДУЩЕГО-ВЫПУСКА].html">Вернуться к выпуску № [НОМЕР] <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>
+<div class="plan glass"><div class="n">→</div><div><div class="kicker">Следующий выпуск</div><h3>[НАЗВАНИЕ СЛЕДУЮЩЕГО ВЫПУСКА]</h3><a class="text-link" href="[ФАЙЛ-СЛЕДУЮЩЕГО-ВЫПУСКА].html">Перейти к выпуску № [НОМЕР]</a></div></div>
+</section>
+</main>
+
+<footer class="site-footer"><div class="wrap footer-inner">
+<div><div class="footer-logo">ЭТЮД<span>.</span></div><div class="footer-note">Журнал творческой жизни МХПИ<br>Искусство · Дизайн · Люди</div></div>
+<div><div class="socials">
+<a class="social" href="https://t.me/mhpi_team" aria-label="Telegram МХПИ" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+<a class="social" href="https://t.me/mhpi_hd" aria-label="Telegram ХД" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+<a class="social" href="https://t.me/mhpi_gd" aria-label="Telegram ГД" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+<a class="social" href="https://t.me/mhpi_dk" aria-label="Telegram ДК" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+<a class="social" href="https://t.me/kafedraMiD" aria-label="Telegram МиД" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+<a class="social" href="https://t.me/mhpi_gsed" aria-label="Telegram ГСЭД" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21.7 4.3 18.6 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3-.1-.5-.5-.2L7.3 13.2 2.8 11.8c-1-.3-1-1 .2-1.5L20.5 3.5c.8-.3 1.5.2 1.2.8z"/></svg></a>
+</div><div class="social-labels"><span>МХПИ</span><span>ХД</span><span>ГД</span><span>ДК</span><span>МИД</span><span>ГСЭД</span></div></div>
+</div></footer>
+
+<div class="lightbox" aria-label="Просмотр фотографий">
+<button class="lb-close" data-lightbox-close aria-label="Закрыть">×</button>
+<button class="lb-prev" data-lightbox-prev aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<figure><img src="" alt="Увеличенная фотография"><figcaption data-lightbox-caption></figcaption></figure>
+<button class="lb-next" data-lightbox-next aria-label="Следующее фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<div class="lb-counter" data-lightbox-counter></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
