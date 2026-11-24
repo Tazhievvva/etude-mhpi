@@ -454,3 +454,140 @@ document.addEventListener("keydown", event => {
     saveDraft();
   }
 });
+
+/* ПЕРЕТАСКИВАНИЕ И СОРТИРОВКА БЛОКОВ */
+
+let draggedElement = null;
+
+function makeElementsDraggable() {
+  canvas.querySelectorAll(".editable-element").forEach(element => {
+    element.draggable = true;
+  });
+}
+
+function finishReorder() {
+  updateLayers();
+  saveHistory();
+}
+
+function moveElement(source, target, y) {
+  if (!source || source === target) return false;
+
+  if (!target) {
+    canvas.appendChild(source);
+    return true;
+  }
+
+  const rect = target.getBoundingClientRect();
+  const insertBefore = y < rect.top + rect.height / 2;
+
+  canvas.insertBefore(
+    source,
+    insertBefore ? target : target.nextElementSibling
+  );
+
+  return true;
+}
+
+/* Перетаскивание на холсте */
+
+canvas.addEventListener("dragstart", event => {
+  const element = event.target.closest(".editable-element");
+  if (!element) return;
+
+  draggedElement = element;
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", "etude-block");
+  element.classList.add("is-dragging");
+});
+
+canvas.addEventListener("dragover", event => {
+  if (!draggedElement) return;
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+});
+
+canvas.addEventListener("drop", event => {
+  if (!draggedElement) return;
+
+  event.preventDefault();
+
+  const target = event.target.closest(".editable-element");
+  const changed = moveElement(draggedElement, target, event.clientY);
+
+  if (changed) finishReorder();
+});
+
+canvas.addEventListener("dragend", () => {
+  if (draggedElement) {
+    draggedElement.classList.remove("is-dragging");
+  }
+  draggedElement = null;
+});
+
+/* Перетаскивание в списке структуры */
+
+layers.addEventListener("dragstart", event => {
+  const row = event.target.closest(".layer-item");
+  if (!row) return;
+
+  const rows = Array.from(layers.children).filter(
+    (item, index) => index > 0
+  );
+
+  const index = rows.indexOf(row);
+  if (index < 0) return;
+
+  draggedElement = canvas.children[index];
+  if (!draggedElement) return;
+
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", "etude-block");
+  row.classList.add("is-dragging");
+});
+
+layers.addEventListener("dragover", event => {
+  if (!draggedElement) return;
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+});
+
+layers.addEventListener("drop", event => {
+  if (!draggedElement) return;
+
+  event.preventDefault();
+
+  const row = event.target.closest(".layer-item");
+  const rows = Array.from(layers.children).filter(
+    (item, index) => index > 0
+  );
+
+  const index = row ? rows.indexOf(row) : -1;
+  const target = index >= 0 ? canvas.children[index] : null;
+
+  const changed = moveElement(draggedElement, target, event.clientY);
+
+  if (changed) finishReorder();
+});
+
+layers.addEventListener("dragend", () => {
+  layers.querySelectorAll(".is-dragging").forEach(item => {
+    item.classList.remove("is-dragging");
+  });
+
+  if (draggedElement) {
+    draggedElement.classList.remove("is-dragging");
+  }
+
+  draggedElement = null;
+});
+
+/* Подготовка блоков */
+
+makeElementsDraggable();
+
+new MutationObserver(() => {
+  makeElementsDraggable();
+}).observe(canvas, {
+  childList: true
+});
