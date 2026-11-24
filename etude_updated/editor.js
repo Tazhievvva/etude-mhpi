@@ -1,593 +1,179 @@
+/* ЭТЮД — блочный редактор статей */
+(() => {
+  const $ = (s, root=document) => root.querySelector(s);
+  const canvas = $("#articleBlocks");
+  const list = $("#blockList");
+  const settings = $("#blockSettings");
+  const status = $("#saveStatus");
+  const STORAGE_KEY = "etude_article_blocks_draft_v1";
+  let blocks = [];
+  let selectedId = null;
+  let history = [];
+  let historyIndex = -1;
+  let dragId = null;
 
-/* =====================================
-   ЭТЮД — VISUAL EDITOR
-   Основная логика редактора
-===================================== */
+  const types = {
+    title: ["Заголовок", "Новая статья"],
+    lead: ["Вводный текст", "Краткое вступление к статье..."],
+    paragraph: ["Текст", "Начните писать текст статьи..."],
+    heading: ["Подзаголовок", "Новый раздел"],
+    image: ["Изображение", ""],
+    gallery: ["Галерея", ""],
+    quote: ["Цитата", "Текст цитаты..."],
+    divider: ["Разделитель", ""],
+    ps: ["P.S.", "Послесловие..."]
+  };
 
-const canvas = document.getElementById("websiteCanvas");
-const properties = document.getElementById("properties");
-const layers = document.getElementById("layers");
-const saveStatus = document.getElementById("saveStatus");
+  const uid = () => "b" + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const clone = value => JSON.parse(JSON.stringify(value));
 
-let selectedElement = null;
-let history = [];
-let historyIndex = -1;
-let isRestoring = false;
-
-/* СОХРАНЕНИЕ СОСТОЯНИЯ */
-
-function saveHistory() {
-  if (isRestoring) return;
-
-  const state = canvas.innerHTML;
-
-  if (history[historyIndex] === state) return;
-
-  history = history.slice(0, historyIndex + 1);
-  history.push(state);
-  historyIndex = history.length - 1;
-
-  saveStatus.textContent = "Есть несохранённые изменения";
-}
-
-function restoreHistory(index) {
-  if (index < 0 || index >= history.length) return;
-
-  isRestoring = true;
-  canvas.innerHTML = history[index];
-  historyIndex = index;
-  selectedElement = null;
-
-  isRestoring = false;
-
-  updateLayers();
-  showEmptyProperties();
-  saveStatus.textContent = "История восстановлена";
-}
-
-function saveDraft() {
-  localStorage.setItem("etude_editor_draft", canvas.innerHTML);
-  saveStatus.textContent = "Черновик сохранён";
-}
-
-function loadDraft() {
-  const draft = localStorage.getItem("etude_editor_draft");
-
-  if (draft) {
-    canvas.innerHTML = draft;
-    saveStatus.textContent = "Загружен черновик";
+  function snapshot() {
+    const state = JSON.stringify(blocks);
+    if (history[historyIndex] === state) return;
+    history = history.slice(0, historyIndex + 1);
+    history.push(state);
+    if (history.length > 60) history.shift();
+    historyIndex = history.length - 1;
+    status.textContent = "Есть несохранённые изменения";
   }
-
-  updateLayers();
-}
-
-/* ВЫБОР ЭЛЕМЕНТА */
-
-function selectElement(element) {
-  if (!element || element === canvas) return;
-
-  if (selectedElement) {
-    selectedElement.classList.remove("editor-selected");
-    selectedElement.removeAttribute("contenteditable");
+  function restore(index) {
+    if (index < 0 || index >= history.length) return;
+    historyIndex = index;
+    blocks = JSON.parse(history[index]);
+    selectedId = null;
+    render();
+    showEmptySettings();
+    status.textContent = "История восстановлена";
   }
-
-  selectedElement = element;
-  selectedElement.classList.add("editor-selected");
-
-  showProperties(selectedElement);
-  updateLayers();
-}
-
-function showEmptyProperties() {
-  properties.innerHTML = `
-    <div class="empty-selection">
-      <div class="empty-icon">◇</div>
-      <p>Выбери элемент на холсте, чтобы изменить его свойства.</p>
-    </div>
-  `;
-}
-
-/* ПАНЕЛЬ СВОЙСТВ */
-
-function showProperties(element) {
-  const isText = element.matches("h1, h2, h3, p, span, a, button, div");
-  const textValue = element.innerText || "";
-  const color = rgbToHex(getComputedStyle(element).color);
-  const background = rgbToHex(getComputedStyle(element).backgroundColor);
-  const fontSize = parseInt(getComputedStyle(element).fontSize) || 16;
-
-  properties.innerHTML = `
-    <div class="property-group">
-      <label>Название элемента</label>
-      <input id="elementName" value="${escapeHTML(element.dataset.name || element.tagName.toLowerCase())}">
-    </div>
-
-    ${isText ? `
-      <div class="property-group">
-        <label>Текст</label>
-        <textarea id="elementText" rows="4">${escapeHTML(textValue)}</textarea>
-      </div>
-    ` : ""}
-
-    <div class="property-group">
-      <label>Размер текста</label>
-      <input id="elementFontSize" type="number" min="8" max="160" value="${fontSize}">
-    </div>
-
-    <div class="property-group">
-      <label>Цвет текста</label>
-      <input id="elementColor" type="color" value="${color}">
-    </div>
-
-    <div class="property-group">
-      <label>Цвет фона</label>
-      <input id="elementBackground" type="color" value="${background}">
-    </div>
-
-    <div class="property-group">
-      <label>Внутренние отступы</label>
-      <input id="elementPadding" type="number" min="0" max="200" value="${parseInt(getComputedStyle(element).padding) || 0}">
-    </div>
-
-    <div class="property-group">
-      <label>Ширина</label>
-      <select id="elementWidth">
-        <option value="auto">Автоматически</option>
-        <option value="100%">100%</option>
-        <option value="50%">50%</option>
-        <option value="75%">75%</option>
-      </select>
-    </div>
-
-    <button class="delete-element" id="deleteElement">Удалить элемент</button>
-  `;
-
-  document.getElementById("elementName").addEventListener("change", event => {
-    element.dataset.name = event.target.value;
-    updateLayers();
-    saveHistory();
-  });
-
-  const textInput = document.getElementById("elementText");
-
-  if (textInput) {
-    textInput.addEventListener("input", event => {
-      element.innerText = event.target.value;
-      updateLayers();
-    });
-
-    textInput.addEventListener("change", saveHistory);
+  function addBlock(type) {
+    const [label, text] = types[type];
+    const block = {id:uid(), type, label, text, src:"", caption:"", images:[]};
+    blocks.push(block);
+    selectedId = block.id;
+    snapshot();
+    render();
+    showSettings(block);
   }
-
-  document.getElementById("elementFontSize").addEventListener("change", event => {
-    element.style.fontSize = event.target.value + "px";
-    saveHistory();
-  });
-
-  document.getElementById("elementColor").addEventListener("input", event => {
-    element.style.color = event.target.value;
-  });
-
-  document.getElementById("elementColor").addEventListener("change", saveHistory);
-
-  document.getElementById("elementBackground").addEventListener("input", event => {
-    element.style.backgroundColor = event.target.value;
-  });
-
-  document.getElementById("elementBackground").addEventListener("change", saveHistory);
-
-  document.getElementById("elementPadding").addEventListener("change", event => {
-    element.style.padding = event.target.value + "px";
-    saveHistory();
-  });
-
-  document.getElementById("elementWidth").addEventListener("change", event => {
-    element.style.width = event.target.value;
-    saveHistory();
-  });
-
-  document.getElementById("deleteElement").addEventListener("click", () => {
-    if (!confirm("Удалить выбранный элемент?")) return;
-
-    element.remove();
-    selectedElement = null;
-    showEmptyProperties();
-    updateLayers();
-    saveHistory();
-  });
-}
-
-/* СЛОИ */
-
-function updateLayers() {
-  const elements = canvas.querySelectorAll(".editable-element");
-
-  layers.innerHTML = "";
-
-  const root = document.createElement("div");
-  root.className = "layer-item";
-  root.textContent = "⌂ Главная страница";
-  layers.appendChild(root);
-
-  elements.forEach((element, index) => {
-    const layer = document.createElement("div");
-    layer.className = "layer-item";
-
-    if (element === selectedElement) {
-      layer.classList.add("active");
+  function renderBlock(block) {
+    const content = esc(block.text).replace(/\n/g, "<br>");
+    switch(block.type) {
+      case "title": return `<h1>${content || "Новая статья"}</h1>`;
+      case "lead": return `<p>${content}</p>`;
+      case "paragraph": return `<p>${content}</p>`;
+      case "heading": return `<h2>${content}</h2>`;
+      case "quote": return `<blockquote>${content}</blockquote>`;
+      case "divider": return `<hr>`;
+      case "ps": return `<p>${content}</p>`;
+      case "image": return block.src
+        ? `<img src="${block.src}" alt="${esc(block.caption || "Иллюстрация")}"><p class="image-caption">${esc(block.caption)}</p>`
+        : `<div class="block-placeholder">Изображение не добавлено</div>`;
+      case "gallery": return block.images.length
+        ? `<div class="gallery-images">${block.images.map(src=>`<img src="${src}" alt="Фотография из галереи">`).join("")}</div>`
+        : `<div class="block-placeholder">Добавьте фотографии в настройках блока</div>`;
+      default: return "";
     }
-
-    layer.textContent = "▣ " + (element.dataset.name || "Блок " + (index + 1));
-
-    layer.addEventListener("click", () => selectElement(element));
-
-    layers.appendChild(layer);
-  });
-}
-
-/* ДОБАВЛЕНИЕ ЭЛЕМЕНТОВ */
-
-function addElement(type) {
-  const section = document.createElement("section");
-  section.className = "editable-element";
-  section.dataset.name = "Новый элемент";
-  section.style.padding = "25px";
-  section.style.margin = "10px 0";
-  section.style.border = "1px dashed #cccccc";
-
-  if (type === "text") {
-    section.innerHTML = "<h2>Новый заголовок</h2><p>Добавьте свой текст</p>";
   }
-
-  if (type === "image") {
-    section.innerHTML = `
-      <div style="background:#e9e7e2;padding:60px;text-align:center">
-        <p>Место для изображения</p>
-        <button type="button" class="choose-image">Загрузить изображение</button>
-        <input type="file" accept="image/*" hidden>
-      </div>
+  function render() {
+    if (!blocks.length) canvas.innerHTML = `<div class="empty-article">Статья пока пустая.<br>Добавь блок в левой панели.</div>`;
+    else canvas.innerHTML = blocks.map((b,i)=>`<section class="article-block ${b.type} ${b.id===selectedId?"selected":""}" data-id="${b.id}" draggable="true">${renderBlock(b)}</section>`).join("");
+    list.innerHTML = blocks.length ? blocks.map((b,i)=>`<div class="block-row ${b.id===selectedId?"active":""}" data-id="${b.id}" draggable="true"><span class="block-index">${String(i+1).padStart(2,"0")}</span><span class="block-label">${esc(b.label)}</span><span class="drag-mark">⠿</span></div>`).join("") : `<p class="sidebar-hint">Добавь первый блок статьи.</p>`;
+  }
+  function showEmptySettings() {
+    settings.innerHTML = `<div class="empty-selection"><div class="empty-icon">◇</div><p>Выбери блок статьи, чтобы изменить его содержимое.</p></div>`;
+  }
+  function showSettings(block) {
+    const isMedia = ["image","gallery"].includes(block.type);
+    settings.innerHTML = `
+      <div class="property-group"><label>Тип блока</label><input value="${esc(block.label)}" disabled></div>
+      ${block.type!=="divider" ? `<div class="property-group"><label>${block.type==="title"||block.type==="heading"?"Текст заголовка":"Содержимое"}</label><textarea id="blockText">${esc(block.text)}</textarea></div>`:""}
+      ${block.type==="image" ? `<div class="property-group"><label>Изображение</label><input id="imageFile" type="file" accept="image/*"><label>Подпись к изображению</label><input id="blockCaption" value="${esc(block.caption)}" placeholder="Необязательно"></div>`:""}
+      ${block.type==="gallery" ? `<div class="property-group"><label>Фотографии галереи</label><input id="galleryFiles" type="file" accept="image/*" multiple></div><p class="property-help">Можно выбрать сразу несколько изображений. Они сохраняются в черновике этого браузера.</p><button id="clearGallery" class="move-actions button" type="button">Очистить галерею</button>`:""}
+      <div class="move-actions"><button id="moveUp" type="button">↑ Выше</button><button id="moveDown" type="button">↓ Ниже</button></div>
+      <button id="deleteBlock" class="danger-button" type="button">Удалить блок</button>
     `;
-
-    const input = section.querySelector("input");
-    const button = section.querySelector(".choose-image");
-
-    button.addEventListener("click", () => input.click());
-
-    input.addEventListener("change", () => {
-      const file = input.files[0];
-      if (!file) return;
-
+    const textInput = $("#blockText");
+    if (textInput) textInput.addEventListener("input", e => {block.text=e.target.value; renderBlockOnly(block);});
+    if ($("#blockCaption")) $("#blockCaption").addEventListener("input",e=>{block.caption=e.target.value;renderBlockOnly(block);});
+    if ($("#imageFile")) $("#imageFile").addEventListener("change",e=>readFiles(e.target.files, files=>{block.src=files[0]||"";snapshot();render();showSettings(block);}));
+    if ($("#galleryFiles")) $("#galleryFiles").addEventListener("change",e=>readFiles(e.target.files, files=>{block.images.push(...files);snapshot();render();showSettings(block);}));
+    if ($("#clearGallery")) $("#clearGallery").addEventListener("click",()=>{block.images=[];snapshot();render();showSettings(block);});
+    $("#deleteBlock").addEventListener("click",()=>{if(!confirm("Удалить этот блок?"))return;blocks=blocks.filter(x=>x.id!==block.id);selectedId=null;snapshot();render();showEmptySettings();});
+    $("#moveUp").addEventListener("click",()=>move(block.id,-1));
+    $("#moveDown").addEventListener("click",()=>move(block.id,1));
+  }
+  function renderBlockOnly(block) {
+    const el = canvas.querySelector(`[data-id="${block.id}"]`);
+    if (el) el.innerHTML = renderBlock(block);
+    const row = list.querySelector(`[data-id="${block.id}"] .block-label`);
+    if (row) row.textContent = block.label;
+  }
+  function readFiles(fileList, callback) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    const readers = files.map(file=>new Promise(resolve=>{
       const reader = new FileReader();
-
-      reader.onload = () => {
-        const image = document.createElement("img");
-        image.src = reader.result;
-        image.alt = "Изображение";
-        image.style.width = "100%";
-        image.style.display = "block";
-
-        section.innerHTML = "";
-        section.appendChild(image);
-        section.dataset.name = "Изображение";
-        selectElement(section);
-        saveHistory();
-      };
-
+      reader.onload=()=>resolve(reader.result);
       reader.readAsDataURL(file);
-    });
+    }));
+    Promise.all(readers).then(callback);
   }
-
-  if (type === "button") {
-    section.innerHTML = `
-      <a href="#" style="display:inline-block;background:#171717;color:white;padding:14px 25px;border-radius:30px;text-decoration:none">
-        Новая кнопка
-      </a>
-    `;
+  function move(id, direction) {
+    const index=blocks.findIndex(b=>b.id===id), next=index+direction;
+    if(index<0||next<0||next>=blocks.length)return;
+    [blocks[index],blocks[next]]=[blocks[next],blocks[index]];
+    selectedId=id;snapshot();render();showSettings(blocks.find(b=>b.id===id));
   }
-
-  if (type === "container") {
-    section.innerHTML = "<h2>Новая секция</h2><p>Содержимое секции</p>";
-    section.style.minHeight = "150px";
+  function select(id) {
+    selectedId=id;render();
+    const block=blocks.find(b=>b.id===id);
+    if(block)showSettings(block);else showEmptySettings();
   }
-
-  if (type === "gallery") {
-    section.innerHTML = `
-      <h2>Новая галерея</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-        <div style="background:#e9e7e2;padding:35px 5px;text-align:center">Фото 1</div>
-        <div style="background:#e9e7e2;padding:35px 5px;text-align:center">Фото 2</div>
-        <div style="background:#e9e7e2;padding:35px 5px;text-align:center">Фото 3</div>
-      </div>
-    `;
-  }
-
-  canvas.appendChild(section);
-  selectElement(section);
-  updateLayers();
-  saveHistory();
-}
-
-/* ПОДГОТОВКА СЛУЖЕБНЫХ ФУНКЦИЙ */
-
-function rgbToHex(rgb) {
-  if (!rgb || rgb === "transparent") return "#ffffff";
-
-  const values = rgb.match(/\d+/g);
-
-  if (!values || values.length < 3) return "#ffffff";
-
-  return "#" + values.slice(0, 3)
-    .map(value => Number(value).toString(16).padStart(2, "0"))
-    .join("");
-}
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[char]);
-}
-
-/* ОБРАБОТКА ХОЛСТА */
-
-canvas.addEventListener("click", event => {
-  const element = event.target.closest(".editable-element");
-
-  if (element && canvas.contains(element)) {
-    selectElement(element);
-  }
-});
-
-canvas.addEventListener("dblclick", event => {
-  const element = event.target.closest(".editable-element");
-
-  if (!element || !canvas.contains(element)) return;
-
-  const textElement = element.querySelector("h1, h2, h3, p, span");
-
-  if (textElement) {
-    textElement.contentEditable = "true";
-    textElement.focus();
-
-    textElement.addEventListener("blur", () => {
-      textElement.removeAttribute("contenteditable");
-      saveHistory();
-    }, { once: true });
-  }
-});
-
-/* КНОПКИ ДОБАВЛЕНИЯ */
-
-document.querySelectorAll("[data-add]").forEach(button => {
-  button.addEventListener("click", () => {
-    addElement(button.dataset.add);
-  });
-});
-
-/* ПЕРЕКЛЮЧЕНИЕ УСТРОЙСТВ */
-
-document.querySelectorAll("[data-device]").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll("[data-device]").forEach(item => {
-      item.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    const device = button.dataset.device;
-
-    canvas.classList.remove("device-tablet", "device-mobile");
-
-    if (device === "tablet") {
-      canvas.classList.add("device-tablet");
+  function saveDraft() {
+    try {
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(blocks));
+      status.textContent="Черновик сохранён в этом браузере";
+    } catch(e) {
+      alert("Не удалось сохранить черновик. Возможно, изображения слишком большие. Попробуй уменьшить их размер.");
     }
+  }
+  function preview() {
+    const body = blocks.map(b=>`<section class="block ${b.type}">${renderBlock(b)}</section>`).join("");
+    const doc = `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Предпросмотр — ЭТЮД</title><style>*{box-sizing:border-box}body{margin:0;background:#f4f3f0;color:#171717;font-family:Arial,sans-serif}.page{max-width:850px;margin:35px auto;background:white;padding:60px 8%;min-height:90vh}.meta{font-size:10px;letter-spacing:1.4px;color:#777;border-bottom:1px solid #ddd;padding-bottom:18px;margin-bottom:30px}.block{margin:0 0 26px}.title h1{font-size:clamp(36px,6vw,60px);letter-spacing:-2px;line-height:1.02;margin:0}.heading h2{font-size:30px}.block p{font-size:16px;line-height:1.8;color:#444}.lead p{font-size:20px}.quote blockquote{margin:0;border-left:3px solid #d51e22;padding-left:22px;font-size:23px;line-height:1.5}.block img{max-width:100%;height:auto}.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.gallery img{width:100%}.ps p{font-style:italic;color:#777;font-size:14px}.image-caption{font-size:11px!important;color:#888!important}hr{border:0;border-top:1px solid #ddd}@media(max-width:600px){.page{margin:0;padding:35px 6%}.gallery{grid-template-columns:1fr}}</style></head><body><main class="page"><div class="meta">ЭТЮД · ЖУРНАЛ ТВОРЧЕСКОЙ ЖИЗНИ МХПИ</div>${body}<div class="meta">ЭТЮД. · ИСКУССТВО · ДИЗАЙН · ЛЮДИ</div></main></body></html>`;
+    const win=window.open("","_blank");
+    if(!win){alert("Разреши всплывающие окна для предпросмотра.");return;}
+    win.document.open();win.document.write(doc);win.document.close();
+  }
 
-    if (device === "mobile") {
-      canvas.classList.add("device-mobile");
-    }
+  document.querySelectorAll("[data-add]").forEach(btn=>btn.addEventListener("click",()=>addBlock(btn.dataset.add)));
+  canvas.addEventListener("click",e=>{const el=e.target.closest(".article-block");if(el)select(el.dataset.id);});
+  list.addEventListener("click",e=>{const row=e.target.closest(".block-row");if(row)select(row.dataset.id);});
+  [canvas,list].forEach(container=>{
+    container.addEventListener("dragstart",e=>{
+      const row=e.target.closest("[data-id]");if(!row)return;
+      dragId=row.dataset.id;e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",dragId);
+      row.classList.add("dragging");
+    });
+    container.addEventListener("dragover",e=>{if(dragId)e.preventDefault();});
+    container.addEventListener("drop",e=>{
+      if(!dragId)return;e.preventDefault();
+      const target=e.target.closest("[data-id]");const from=blocks.findIndex(b=>b.id===dragId);const to=target?blocks.findIndex(b=>b.id===target.dataset.id):blocks.length-1;
+      if(from>=0&&to>=0&&from!==to){const [item]=blocks.splice(from,1);blocks.splice(to,0,item);selectedId=item.id;snapshot();render();showSettings(item);}
+      dragId=null;
+    });
+    container.addEventListener("dragend",()=>{dragId=null;container.querySelectorAll(".dragging").forEach(el=>el.classList.remove("dragging"));});
   });
-});
-
-/* ОТМЕНА И ПОВТОР */
-
-document.getElementById("undoBtn").addEventListener("click", () => {
-  restoreHistory(historyIndex - 1);
-});
-
-document.getElementById("redoBtn").addEventListener("click", () => {
-  restoreHistory(historyIndex + 1);
-});
-
-/* ПРЕДПРОСМОТР */
-
-document.getElementById("previewBtn").addEventListener("click", () => {
-  const preview = window.open("", "_blank");
-
-  if (!preview) {
-    alert("Разреши открытие всплывающих окон для предпросмотра.");
-    return;
-  }
-
-  preview.document.write(`
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Предпросмотр — ЭТЮД</title>
-      <style>
-        body { margin:0; font-family:Arial,sans-serif; }
-        * { box-sizing:border-box; }
-        .editor-selected { outline:none !important; }
-      </style>
-    </head>
-    <body>${canvas.innerHTML}</body>
-    </html>
-  `);
-
-  preview.document.close();
-});
-
-/* СОХРАНЕНИЕ ЧЕРНОВИКА */
-
-document.getElementById("publishBtn").addEventListener("click", () => {
-  saveDraft();
-  alert("Черновик сохранён в этом браузере. Публикация на сайте будет подключена на следующем этапе.");
-});
-
-/* СТАРТ */
-
-loadDraft();
-
-if (history.length === 0) {
-  saveHistory();
-}
-
-showEmptyProperties();
-
-document.addEventListener("keydown", event => {
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") {
-    event.preventDefault();
-    saveDraft();
-  }
-});
-
-/* ПЕРЕТАСКИВАНИЕ И СОРТИРОВКА БЛОКОВ */
-
-let draggedElement = null;
-
-function makeElementsDraggable() {
-  canvas.querySelectorAll(".editable-element").forEach(element => {
-    element.draggable = true;
-  });
-}
-
-function finishReorder() {
-  updateLayers();
-  saveHistory();
-}
-
-function moveElement(source, target, y) {
-  if (!source || source === target) return false;
-
-  if (!target) {
-    canvas.appendChild(source);
-    return true;
-  }
-
-  const rect = target.getBoundingClientRect();
-  const insertBefore = y < rect.top + rect.height / 2;
-
-  canvas.insertBefore(
-    source,
-    insertBefore ? target : target.nextElementSibling
-  );
-
-  return true;
-}
-
-/* Перетаскивание на холсте */
-
-canvas.addEventListener("dragstart", event => {
-  const element = event.target.closest(".editable-element");
-  if (!element) return;
-
-  draggedElement = element;
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("text/plain", "etude-block");
-  element.classList.add("is-dragging");
-});
-
-canvas.addEventListener("dragover", event => {
-  if (!draggedElement) return;
-  event.preventDefault();
-  event.dataTransfer.dropEffect = "move";
-});
-
-canvas.addEventListener("drop", event => {
-  if (!draggedElement) return;
-
-  event.preventDefault();
-
-  const target = event.target.closest(".editable-element");
-  const changed = moveElement(draggedElement, target, event.clientY);
-
-  if (changed) finishReorder();
-});
-
-canvas.addEventListener("dragend", () => {
-  if (draggedElement) {
-    draggedElement.classList.remove("is-dragging");
-  }
-  draggedElement = null;
-});
-
-/* Перетаскивание в списке структуры */
-
-layers.addEventListener("dragstart", event => {
-  const row = event.target.closest(".layer-item");
-  if (!row) return;
-
-  const rows = Array.from(layers.children).filter(
-    (item, index) => index > 0
-  );
-
-  const index = rows.indexOf(row);
-  if (index < 0) return;
-
-  draggedElement = canvas.children[index];
-  if (!draggedElement) return;
-
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("text/plain", "etude-block");
-  row.classList.add("is-dragging");
-});
-
-layers.addEventListener("dragover", event => {
-  if (!draggedElement) return;
-  event.preventDefault();
-  event.dataTransfer.dropEffect = "move";
-});
-
-layers.addEventListener("drop", event => {
-  if (!draggedElement) return;
-
-  event.preventDefault();
-
-  const row = event.target.closest(".layer-item");
-  const rows = Array.from(layers.children).filter(
-    (item, index) => index > 0
-  );
-
-  const index = row ? rows.indexOf(row) : -1;
-  const target = index >= 0 ? canvas.children[index] : null;
-
-  const changed = moveElement(draggedElement, target, event.clientY);
-
-  if (changed) finishReorder();
-});
-
-layers.addEventListener("dragend", () => {
-  layers.querySelectorAll(".is-dragging").forEach(item => {
-    item.classList.remove("is-dragging");
-  });
-
-  if (draggedElement) {
-    draggedElement.classList.remove("is-dragging");
-  }
-
-  draggedElement = null;
-});
-
-/* Подготовка блоков */
-
-makeElementsDraggable();
-
-new MutationObserver(() => {
-  makeElementsDraggable();
-}).observe(canvas, {
-  childList: true
-});
+  document.querySelectorAll("[data-device]").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-device]").forEach(x=>x.classList.toggle("active",x===btn));
+    $("#articleCanvas").classList.remove("device-tablet","device-mobile");
+    if(btn.dataset.device==="tablet")$("#articleCanvas").classList.add("device-tablet");
+    if(btn.dataset.device==="mobile")$("#articleCanvas").classList.add("device-mobile");
+  }));
+  $("#undoBtn").addEventListener("click",()=>restore(historyIndex-1));
+  $("#redoBtn").addEventListener("click",()=>restore(historyIndex+1));
+  $("#previewBtn").addEventListener("click",preview);
+  $("#saveBtn").addEventListener("click",saveDraft);
+  document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="s"){e.preventDefault();saveDraft();}});
+  try { const saved=localStorage.getItem(STORAGE_KEY);if(saved)blocks=JSON.parse(saved); } catch(e) {}
+  render();showEmptySettings();snapshot();
+})();
