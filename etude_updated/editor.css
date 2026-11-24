@@ -502,3 +502,64 @@ button {
   outline: 1px dashed #d51e22;
   cursor: text;
 }
+
+
+/* FIX: НЕЗАВИСИМАЯ ПРОКРУТКА ХОЛСТА */
+
+.editor-workspace {
+  min-height: 0;
+}
+
+.canvas-area {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.canvas-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #252525;
+}
+
+.website-canvas {
+  min-height: 1100px;
+  height: auto;
+}
+
+.sidebar {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* FIX: НЕЗАВИСИМАЯ ПРОКРУТКА ХОЛСТА */
+
+.editor-workspace {
+  min-height: 0;
+}
+
+.canvas-area {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.canvas-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #252525;
+}
+
+.website-canvas {
+  min-height: 1100px;
+  height: auto;
+}
+
+.sidebar {
+  min-height: 0;
+  overflow-y: auto;
+}
