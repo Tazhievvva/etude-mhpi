@@ -12,17 +12,5 @@ window.ETUDE_ISSUES = [
     cover: "assets/photo-1.jpg",
     coverAlt: "Выставка работ студентов",
     isNew: false
-  },
-  {
-    number: 2,
-    year: "2026",
-    label: "Второй выпуск",
-    title: "Искусство замечать",
-    description: "О внимании к деталям, визуальных привычках и вдохновении, которое начинается с обычного взгляда вокруг.",
-    file: "article-02.html",
-    cover: "assets/photo-3.jpg",
-    coverAlt: "Студентка рисует на пленэре",
-    isNew: true,
-    newUntil: "2026-11-30T00:00:00+03:00"
   }
 ];
